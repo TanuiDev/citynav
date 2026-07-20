@@ -35,7 +35,7 @@ export class AuthService {
     return { message: 'User registered successfully' };
   }
 
-  async loginUser(dto: userLoginDTO): Promise<{ accessToken: string ,message: string, user: User}> {
+  async loginUser(dto: userLoginDTO): Promise<{ accessToken: string ,message: string, user:{id:number,emailAddress:string,userName:string,phoneNumber:string,role:string,profileImage:string} }> {
     const user = await this.userRepository.findOne({
       where: {
         emailAddress: dto.emailAddress,
@@ -48,15 +48,16 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new ConflictException('Invalid password');
     }
-    const payload= { userId: user.id,userName:user.userName, emailAddress: user.emailAddress, role: user.role };
+    const payload= { id: user.id,userName:user.userName, emailAddress: user.emailAddress, role: user.role, profileImage: user.profileImage, phoneNumber: user.phoneNumber };
     const accessToken = this.jwtService.sign(payload);
     return { message: 'User logged in successfully', accessToken, user:{
-      id: user.id,
-      emailAddress: user.emailAddress,
-      userName: user.userName,
-      phoneNumber: user.phoneNumber,
-      profileImage: user.profileImage,
-      role: user.role,
-    } };
+        id: user.id,
+        emailAddress: user.emailAddress,
+        userName: user.userName,
+        phoneNumber: user.phoneNumber,
+        profileImage: user.profileImage,
+        role: user.role
+      },
+    };
   }
 }
