@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { User } from './entities/user.entities';
+import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { JwtService } from '@nestjs/jwt';
 import { RegisterUserDTO } from './dto/registeruser.dto';
 
 import * as bcrypt from 'bcrypt';
@@ -12,7 +11,6 @@ export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    private readonly jwtService: JwtService,
   ) {}
   async registerUser(dto: RegisterUserDTO): Promise<User> {
     const existingUser = await this.userRepository.findOne({
