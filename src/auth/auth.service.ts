@@ -50,6 +50,13 @@ export class AuthService {
     }
     const payload= { userId: user.id,userName:user.userName, emailAddress: user.emailAddress, role: user.role };
     const accessToken = this.jwtService.sign(payload);
-    return { message: 'User logged in successfully', accessToken, user };
+    return { message: 'User logged in successfully', accessToken, user:{
+      id: user.id,
+      emailAddress: user.emailAddress,
+      userName: user.userName,
+      phoneNumber: user.phoneNumber,
+      profileImage: user.profileImage,
+      role: user.role,
+    } };
   }
 }
