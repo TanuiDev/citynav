@@ -62,15 +62,5 @@ export class AuthService {
     };
   }
 
-  async updateUser(id: number, dto: UpdateUserDTO): Promise<{ message: string }> {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
 
-    Object.assign(user, dto);
-    await this.userRepository.save(user);
-
-    return { message: 'User updated successfully' };
-  }
 }

@@ -21,18 +21,4 @@ export class AuthController {
     const user = await this.authService.loginUser(dto);
     return user;
   }
-  @Put('update/:id')
-  @HttpCode(200)
-  async updateUser(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() dto: UpdateUserDTO,
-  ): Promise<{ message: string }> {
-    return this.authService.updateUser(id, dto);
-  }
-  @Get(':id')
-  @HttpCode(200)
-  async getUserById( @Param('id', ParseIntPipe ) id: number): Promise<{id: number, emailAddress: string, userName: string, phoneNumber: string, profileImage: string, role: string}> {
-    const user = await this.authService.getUserById(id);
-    return user;
-  }
 }
