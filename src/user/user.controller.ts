@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, ParseIntPipe, Put, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDTO } from 'src/auth/dto/update.user.dto';
-import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('user')
@@ -11,6 +10,11 @@ export class UserController {
   @Get('all')
   async getAllUsers() {
     return this.userService.getALlUsers();
+  }
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  async getUserProfile(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.getUserProfile(id);
   }
 
   @Get(':id')
@@ -32,9 +36,5 @@ export class UserController {
   ): Promise<{ message: string }> {
     return this.userService.updateUser(id, dto);
   }
-  @UseGuards(JwtAuthGuard)
-  @Get('me')
-  async getUserProfile(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.getUserProfile(id);
-  }
+  
 }
