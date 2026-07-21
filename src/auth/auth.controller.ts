@@ -1,4 +1,4 @@
-import {  Controller,  Post,  Body,  HttpCode } from '@nestjs/common';
+import {  Controller,  Post,  Body,  HttpCode, Put } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterUserDTO } from './dto/registeruser.dto';
 import { userLoginDTO } from './dto/login.user.dto';
@@ -19,5 +19,10 @@ export class AuthController {
   async login(@Body() dto: userLoginDTO) {
     const user = await this.authService.loginUser(dto);
     return user;
+  }
+  @Put('reset-password')
+  @HttpCode(200)
+  async resetPassword(@Body() dto: { emailAddress: string; newPassword: string }): Promise<{ message: string }> {
+    return this.authService.resetPassword(dto.emailAddress, dto.newPassword);
   }
 }

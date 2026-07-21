@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, ParseIntPipe, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, ParseIntPipe, Put, UseGuards,Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDTO } from 'src/auth/dto/update.user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Request } from 'express';
 
 @Controller('user')
 export class UserController {
@@ -13,8 +14,8 @@ export class UserController {
   }
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  async getUserProfile(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.getUserProfile(id);
+  async getUserProfile(@Req() req: Request) {
+    return this.userService.getUserProfile((req.user as any).id);
   }
 
   @Get(':id')

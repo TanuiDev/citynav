@@ -62,5 +62,14 @@ export class AuthService {
     };
   }
 
-
+  async resetPassword(emailAddress: string, newPassword: string): Promise<{ message: string }> {
+    const user = await this.userRepository.findOne({ where: { emailAddress } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await this.userRepository.save(user);
+    return { message: 'Password reset successfully' };
+  }
 }
