@@ -47,12 +47,19 @@ export class UserService {
     return { message: 'User deleted successfully' };
   }
 
-  async getUserProfile(id: number): Promise<{id: number, emailAddress: string, userName: string, phoneNumber: string, profileImage: string, role: string}> {
+  async getUserProfile(id: number) {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    const { password, ...userWithoutPassword } = user;
-    return userWithoutPassword;
+    return {
+      id: user.id,
+      emailAddress: user.emailAddress,
+      userName: user.userName,
+      phoneNumber: user.phoneNumber,
+      profileImage: user.profileImage,
+      role: user.role,
+      createdAt: user.createdAt,
+    };
   }
 }
