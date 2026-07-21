@@ -1,4 +1,4 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -7,6 +7,7 @@ import { RegisterUserDTO } from './dto/registeruser.dto';
 import * as bcrypt from 'bcrypt';
 import { userLoginDTO } from './dto/login.user.dto';
 import { JwtService } from '@nestjs/jwt';
+import { UpdateUserDTO } from './dto/update.user.dto';
 
 @Injectable()
 export class AuthService {
@@ -56,8 +57,29 @@ export class AuthService {
         userName: user.userName,
         phoneNumber: user.phoneNumber,
         profileImage: user.profileImage,
-        role: user.role
+        role: user.role,
       },
     };
+  }
+
+  async updateUser(id: number, dto: UpdateUserDTO): Promise<{ message: string }> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    Object.assign(user, dto);
+    await this.userRepository.save(user);
+
+    return { message: 'User updated successfully' };
+  }
+
+  async getUserById(id: number): Promise<{id: number, emailAddress: string, userName: string, phoneNumber: string, profileImage: string, role: string}> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword;
   }
 }
