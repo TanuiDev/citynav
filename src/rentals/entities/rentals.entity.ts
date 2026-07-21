@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, UpdateDateColumn, CreateDateColumn } from 'typeorm';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../../auth/entities/user.entity';
 
 @Entity('rentals')
 export class Rental {
@@ -30,7 +30,7 @@ export class Rental {
   @Column({ type: 'text', array: true })
   amenities!: string[];
 
-  @ManyToOne(() => User, user => user.rentals)
+  @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user!: User;
 

@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { UserRole } from './user.roles';
+import { Rental } from 'src/rentals/entities/rentals.entity';
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
@@ -21,9 +22,10 @@ export class User {
   password!: string;
 
   @Column()
-  profileImage!:string
+  profileImage!: string;
 
-
+  @OneToMany(() => Rental, (rental) => rental.user)
+  rentals!: Rental[];
 
   @CreateDateColumn()
   createdAt!: Date;
