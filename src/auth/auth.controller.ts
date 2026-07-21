@@ -3,6 +3,8 @@ import { AuthService } from './auth.service';
 import { RegisterUserDTO } from './dto/registeruser.dto';
 import { userLoginDTO } from './dto/login.user.dto';
 import { UpdateUserDTO } from './dto/update.user.dto';
+import { User } from './entities/user.entity';
+import { User } from './entities/user.entity';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
