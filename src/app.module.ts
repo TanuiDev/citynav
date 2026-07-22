@@ -7,6 +7,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { RentalsModule } from './rentals/rentals.module';
+import { FavouritesController } from './favourites/favourites.controller';
+import { FavouritesModule } from './favourites/favourites.module';
+import { SavedModule } from './saved/saved.module';
 
 @Module({
   imports: [
@@ -29,8 +32,10 @@ import { RentalsModule } from './rentals/rentals.module';
     }),
     UserModule,
     RentalsModule,
+    FavouritesModule,
+    SavedModule,
   ],
-  controllers: [AppController, UserController],
+  controllers: [AppController, UserController, FavouritesController],
   providers: [AppService],
 })
 export class AppModule {}

@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, UpdateDateColumn, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn, UpdateDateColumn, CreateDateColumn } from 'typeorm';
 import { User } from '../../auth/entities/user.entity';
+import { Saved } from 'src/saved/entities/saved.entity';
 
 @Entity('rentals')
 export class Rental {
@@ -33,6 +34,9 @@ export class Rental {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user!: User;
+
+  @OneToMany(() => Saved, (saved) => saved.rental)
+  saved!: Saved[];
 
   @CreateDateColumn()
   createdAt!: Date;

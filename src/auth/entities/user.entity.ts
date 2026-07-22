@@ -1,6 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { UserRole } from './user.roles';
 import { Rental } from 'src/rentals/entities/rentals.entity';
+import { Saved } from 'src/saved/entities/saved.entity';
+import { Favorite } from 'src/favourites/entities/favourites.entity';
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
@@ -26,6 +28,12 @@ export class User {
 
   @OneToMany(() => Rental, (rental) => rental.user)
   rentals!: Rental[];
+
+  @OneToMany(() => Saved, (saved) => saved.user)
+  saved!: Saved[];
+
+  @OneToMany(() => Favorite, (favorite) => favorite.user)
+  favorites!: Favorite[];
 
   @CreateDateColumn()
   createdAt!: Date;
