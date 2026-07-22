@@ -1,27 +1,32 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { SavedService } from './saved.service';
 import { Saved } from './entities/saved.entity';
 
 @Controller('saved')
 export class SavedController {
   constructor(private savedService: SavedService) {}
+
+  @Get()
   async getAllSaved(): Promise<Saved[]> {
     return this.savedService.getAllSaved();
   }
 
-  async getSavedById(id: number): Promise<Saved> {
+  @Get(':id')
+  async getSavedById(@Param('id') id: number): Promise<Saved> {
     return this.savedService.getSavedById(id);
   }
 
-  async createSaved(saved: Saved): Promise<Saved> {
+  @Post()
+  async createSaved(@Body() saved: Saved): Promise<Saved> {
     return this.savedService.createSaved(saved);
   }
 
-  async getSavedByUserId(userId: number): Promise<Saved[]> {
+  @Get('user/:userId')
+  async getSavedByUserId(@Param('userId') userId: number): Promise<Saved[]> {
     return this.savedService.getSavedByUserId(userId);
   }
-
-  async deleteSaved(id: number): Promise<{ message: string }> {
+  @Delete(':id')
+  async deleteSaved(@Param('id') id: number): Promise<{ message: string }> {
     return this.savedService.deleteSaved(id);
   }
 }
