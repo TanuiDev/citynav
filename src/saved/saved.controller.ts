@@ -22,8 +22,8 @@ export class SavedController {
   }
 
   @Get('user/:userId')
-  async getSavedByUserId(@Param('userId') userId: number): Promise<Saved[]> {
-    return this.savedService.getSavedByUserId(userId);
+  async getSavedByUserId(@Param('userId') userId: number): Promise<Saved> {
+    return this.savedService.getSavedById(userId);
   }
   @Delete(':id')
   async deleteSaved(@Param('id') id: number): Promise<{ message: string }> {
